@@ -1,0 +1,26 @@
+version: '3'
+services:
+    grafana:
+        image: grafana/grafana
+        ports:
+        - 3000:3000
+
+        volumes:
+        - ./grafana/:/etc/grafana/provisioning
+        environment:
+        - "GF_AUTH_ANONYMOUS_ENABLED=true"
+
+    prometheus:
+        image: prom/prometheus
+        ports:
+        - 9090:9090
+        volumes:
+        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    gen:
+        image: fedora/tools
+        ports:
+        - 3001:3001
+        volumes:
+        - ./gen-prome.sh:/bin/gen-prome.sh
+        entrypoint: /bin/gen-prome.sh
+
